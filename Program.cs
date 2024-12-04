@@ -1,6 +1,7 @@
 ﻿using advent;
 
 Console.Write("\nEnter a number from 1-25 to execute that day's program: ");
+
 int number = 0;
 string input = string.Empty;
 
@@ -15,19 +16,26 @@ while (number < 1 || number > 25)
 
 var dayName = (AdventDayName)number;
 var className = dayName.ToString();
+var useExampleInput = input.Contains('e', StringComparison.OrdinalIgnoreCase);
 
 if (typeof(IAdventDay).Assembly.GetTypes()
     .Where(type => type.IsAssignableTo(typeof(IAdventDay)) && type.Name.Equals(className))
     .FirstOrDefault() is Type classType
     && Activator.CreateInstance(classType) is IAdventDay adventDay)
 {
-    var puzzleInput = input.Contains('E', StringComparison.OrdinalIgnoreCase)
+    Console.WriteLine($"\nExecuting program for day {dayName}{(useExampleInput ? " using example input" : "")}...");
+
+    var puzzleInput = useExampleInput
         ? adventDay.GetExampleInput()
         : adventDay.GetInput();
 
-    var result = adventDay.Execute(puzzleInput);
+    var partOneResult = adventDay.ExecutePartOne(puzzleInput);
 
-    Console.WriteLine(result);
+    Console.WriteLine($"\nPart one: {partOneResult}");
+
+    var partTwoResult = adventDay.ExecutePartTwo(puzzleInput);
+
+    Console.WriteLine($"\nPart two: {partTwoResult} \n");
 }
 else
 {

@@ -1,5 +1,3 @@
-using System;
-
 namespace advent;
 
 public interface IAdventDay
@@ -8,5 +6,7 @@ public interface IAdventDay
 
     string GetInput();
 
-    string Execute(string input);
+    string ExecutePartOne(string input);
+
+    string ExecutePartTwo(string input);
 }

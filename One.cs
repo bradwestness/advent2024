@@ -1,11 +1,8 @@
-using System;
-using System.ComponentModel;
-
 namespace advent;
 
 public sealed class One : IAdventDay
 {
-    public string Execute(string input)
+    public string ExecutePartOne(string input)
     {
         var (listA, listB) = ParseInput(input);
 
@@ -24,6 +21,23 @@ public sealed class One : IAdventDay
         }
 
         return $"Total distance: {distance}.";
+    }
+
+    public string ExecutePartTwo(string input)
+    {
+        var (listA, listB) = ParseInput(input);
+
+        var similarity = 0;
+
+        for (var i = 0; i < listA.Count; i++)
+        {
+            var number = listA[i];
+            var frequency = listB.Count(x => x == number);
+            var score = number * frequency;
+            similarity += score;
+        }
+
+        return $"Total similarity score: {similarity}.";
     }
 
     private static (List<int> ListA, List<int> ListB) ParseInput(string input)
