@@ -1,22 +1,17 @@
 ﻿using advent;
 
-Console.Write("\nEnter a number from 1-25 to execute that day's program: ");
+Console.Write("\nEnter a number from 1-25 to execute that day's program (append -e or --example to use example input): ");
+string input = Console.ReadLine() ?? string.Empty;
+AdventDayName dayName;
 
-int number = 0;
-string input = string.Empty;
-
-while (number < 1 || number > 25)
+while (!TryParseDayName(input, out dayName))
 {
+    Console.Write("Invalid input! Please enter a number from 1-25: ");
     input = Console.ReadLine() ?? string.Empty;
-    if (!int.TryParse(input.Split(' ').First(), out number) || number < 1 || number > 25)
-    {
-        Console.WriteLine("Invalid input! Please enter a number form 1-25: ");
-    }
 }
 
-var dayName = (AdventDayName)number;
 var className = dayName.ToString();
-var useExampleInput = input.Contains('e', StringComparison.OrdinalIgnoreCase);
+var useExampleInput = input.Contains("-e", StringComparison.OrdinalIgnoreCase);
 
 if (typeof(IAdventDay).Assembly.GetTypes()
     .Where(type => type.IsAssignableTo(typeof(IAdventDay)) && type.Name.Equals(className))
@@ -31,15 +26,30 @@ if (typeof(IAdventDay).Assembly.GetTypes()
 
     var partOneResult = adventDay.ExecutePartOne(puzzleInput);
 
-    Console.WriteLine($"\nPart one: {partOneResult}");
+    Console.WriteLine($"\n\t1) {partOneResult}");
 
     var partTwoResult = adventDay.ExecutePartTwo(puzzleInput);
 
-    Console.WriteLine($"\nPart two: {partTwoResult} \n");
+    Console.WriteLine($"\n\t2) {partTwoResult}\n");
 }
 else
 {
     throw new InvalidOperationException($"No class for {dayName} was found");
+}
+
+static bool TryParseDayName(string value, out AdventDayName result)
+{
+    try
+    {
+        var number = int.Parse(value.Split('-', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).First());
+        result = (AdventDayName)number;
+        return result != AdventDayName.Unknown;
+    }
+    catch (Exception)
+    {
+        result = AdventDayName.Unknown;
+        return false;
+    }
 }
 
 enum AdventDayName

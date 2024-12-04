@@ -20,7 +20,7 @@ public sealed class One : IAdventDay
             distance += diff;
         }
 
-        return $"Total distance: {distance}.";
+        return $"Total distance: {distance}";
     }
 
     public string ExecutePartTwo(string input)
@@ -37,7 +37,7 @@ public sealed class One : IAdventDay
             similarity += score;
         }
 
-        return $"Total similarity score: {similarity}.";
+        return $"Total similarity score: {similarity}";
     }
 
     private static (List<int> ListA, List<int> ListB) ParseInput(string input)
