@@ -41,30 +41,34 @@ public sealed class Three : IAdventDay
 
         var ranges = new List<(int Start, int End)>();
 
+        // operations are enabled by default so we need
+        // to add a range at the start of the input
+        var start = 0;
         var end = input.IndexOf(endToken);
-        ranges.Add((0, end));
-
-        var curr = end;
-
-        while (curr < input.Length)
+        if (end == -1)
         {
-            var start = input.IndexOf(startToken, curr);
+            end = input.Length;
+        }
 
+        ranges.Add((start, end));
+
+        // now we can loop over the rest of the input
+        // adding any additional ranges
+        while (end < input.Length)
+        {
+            start = input.IndexOf(startToken, end);
             if (start == -1)
             {
                 break;
             }
 
             end = input.IndexOf(endToken, start);
-
             if (end == -1)
             {
-                ranges.Add((start, input.Length));
-                break;
+                end = input.Length;
             }
 
             ranges.Add((start, end));
-            curr = end;
         }
 
         return ranges;
