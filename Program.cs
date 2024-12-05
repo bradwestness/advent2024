@@ -26,11 +26,11 @@ if (typeof(IAdventDay).Assembly.GetTypes()
 
     var partOneResult = adventDay.ExecutePartOne(puzzleInput);
 
-    Console.WriteLine($"\n\t1) {partOneResult}");
+    Console.WriteLine($"\n\tPart 1) {partOneResult}");
 
     var partTwoResult = adventDay.ExecutePartTwo(puzzleInput);
 
-    Console.WriteLine($"\n\t2) {partTwoResult}\n");
+    Console.WriteLine($"\n\tPart 2) {partTwoResult}\n");
 }
 else
 {

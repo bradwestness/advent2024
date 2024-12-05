@@ -36,23 +36,26 @@ public sealed class Three : IAdventDay
 
     private static IEnumerable<(int Start, int End)> GetEnabledInstructionRanges(string input)
     {
+        const string startToken = "do()";
+        const string endToken = "don't()";
+
         var ranges = new List<(int Start, int End)>();
 
-        var end = input.IndexOf("don't()");
+        var end = input.IndexOf(endToken);
         ranges.Add((0, end));
 
         var curr = end;
 
         while (curr < input.Length)
         {
-            var start = input.IndexOf("do()", curr);
+            var start = input.IndexOf(startToken, curr);
 
             if (start == -1)
             {
                 break;
             }
 
-            end = input.IndexOf("don't()", start);
+            end = input.IndexOf(endToken, start);
 
             if (end == -1)
             {
