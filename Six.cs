@@ -28,6 +28,8 @@ public sealed class Six : IAdventDay
             {
                 Position position = new(row, col);
 
+                // can't place an obstacle where there's already an obstacle
+                // or at the guard's starting position
                 if (!puzzle.IsObstacle(position) && position != puzzle.Guard.Position)
                 {
                     Puzzle attempt = puzzle.WithObstacle(position);
