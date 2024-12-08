@@ -95,20 +95,20 @@ public sealed class Five : IAdventDay
 
     private record struct PageOrderingRule(int First, int Last)
     {
-        public override string ToString() => $"{this.First}|{this.Last}";
+        public override string ToString() => $"{First}|{Last}";
 
-        public (int First, int Last) Deconstruct() => (this.First, this.Last);
+        public (int First, int Last) Deconstruct() => (First, Last);
     };
 
     private sealed record ManualUpdate(IReadOnlyList<int> PageNumbers)
     {
-        public override string ToString() => string.Join(',', this.PageNumbers);
+        public override string ToString() => string.Join(',', PageNumbers);
 
         public bool IsOrderCorrect(IReadOnlyList<PageOrderingRule> orderingRules)
         {
-            for (var i = 0; i < this.PageNumbers.Count; i++)
+            for (var i = 0; i < PageNumbers.Count; i++)
             {
-                var pageNumber = this.PageNumbers[i];
+                var pageNumber = PageNumbers[i];
 
                 foreach (var (first, last) in orderingRules)
                 {
@@ -118,7 +118,7 @@ public sealed class Five : IAdventDay
                         // that match the last element in the ordering rule
                         for (var j = 0; j < i; j++)
                         {
-                            if (this.PageNumbers[j] == last)
+                            if (PageNumbers[j] == last)
                             {
                                 return false;
                             }
@@ -128,9 +128,9 @@ public sealed class Five : IAdventDay
                     {
                         // ensure there are no pages after this one
                         // that match the first element in the ordering rule
-                        for (var j = i + 1; j < this.PageNumbers.Count; j++)
+                        for (var j = i + 1; j < PageNumbers.Count; j++)
                         {
-                            if (this.PageNumbers[j] == first)
+                            if (PageNumbers[j] == first)
                             {
                                 return false;
                             }
@@ -157,7 +157,7 @@ public sealed class Five : IAdventDay
 
         public ManualUpdate CorrectPageOrder(IReadOnlyList<PageOrderingRule> orderingRules)
         {
-            var corrected = new List<int>(this.PageNumbers);
+            var corrected = new List<int>(PageNumbers);
             var hasInvalidPageOrder = true;
 
             // keep looping through the ordering rules
@@ -215,13 +215,13 @@ public sealed class Five : IAdventDay
         {
             get
             {
-                if (this.PageNumbers.Count > 0)
+                if (PageNumbers.Count > 0)
                 {
-                    var index = (int)Math.Floor((decimal)(this.PageNumbers.Count / 2));
+                    var index = (int)Math.Floor((decimal)(PageNumbers.Count / 2));
 
-                    if (0 <= index && index < this.PageNumbers.Count)
+                    if (0 <= index && index < PageNumbers.Count)
                     {
-                        return this.PageNumbers[index];
+                        return PageNumbers[index];
                     }
                 }
 
